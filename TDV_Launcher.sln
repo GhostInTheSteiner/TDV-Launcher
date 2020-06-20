@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDV_Launcher", "TDV_Launcher\TDV_Launcher.csproj", "{B6CA869E-8EC7-469A-9E29-87A2545C98F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6CA869E-8EC7-469A-9E29-87A2545C98F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CA869E-8EC7-469A-9E29-87A2545C98F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CA869E-8EC7-469A-9E29-87A2545C98F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CA869E-8EC7-469A-9E29-87A2545C98F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D57268A-8BBA-4DAB-B8C0-2A6BB07F8E41}
+	EndGlobalSection
+EndGlobal
