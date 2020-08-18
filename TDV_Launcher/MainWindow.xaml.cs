@@ -28,34 +28,62 @@ namespace TDV_Launcher
             InitializeComponent();
         }
 
-        private void useIndexFile(string language_code)
+        private void changeLanguage(string language_code)
         {
+            string[] imageResources = new[] { "Begin", "Chapters", "Exit", "Options", "Load", "Credits" };
+
             using var archive = new ZipArchive(File.Open(Environment.CurrentDirectory + @"\The Distant Valhalla.nvz", FileMode.Open, FileAccess.ReadWrite), ZipArchiveMode.Update);
             var entries = archive.Entries.ToArray();
 
-            ZipArchiveEntry indexXML;
+            ZipArchiveEntry targetFile;
+            ZipArchiveEntry targetFilePrevious;
 
-            foreach (var indexLanguageXML in entries)
+            char[] ts = new char[] { 'T', 't' };
+
+            foreach (var sourceFile in entries)
             {
                 //If ZipArchiveEntry is a directory it will have its FullName property ending with "/" (e.g. "some_dir/") 
                 //and its Name property will be empty string ("").
-                if (indexLanguageXML.Name.Equals($"index_{language_code}.xml"))
+                if (sourceFile.Name.Equals($"index_{language_code}.xml"))
                 {
                     archive.GetEntry($"index.xml").Delete();
-                    indexXML = archive.CreateEntry("index.xml");
+                    targetFile = archive.CreateEntry("index.xml");
 
-                    using (var indexLanguageXMLStream = indexLanguageXML.Open())
-                    using (var indexXMLStream = indexXML.Open())
+                    using (var indexLanguageXMLStream = sourceFile.Open())
+                    using (var indexXMLStream = targetFile.Open())
                         indexLanguageXMLStream.CopyTo(indexXMLStream);
 
                     break;
+                }
+
+                //rename language specific image files
+                foreach (var resource in imageResources)
+                {
+                    if (sourceFile.Name.Equals($"{resource}_{language_code}.png"))
+                    {
+                        foreach (var t in ts) //char[] ts = new char[] { 'T', 't' };
+                        {
+
+                            if ((targetFilePrevious = archive.GetEntry($"Assets/{t}extures/{resource}.png")) != null)
+                                targetFilePrevious.Delete();
+
+                            targetFile = archive.CreateEntry($"Assets/{t}extures/{resource}.png");
+
+                            using (var sourceFileStream = sourceFile.Open())
+                            using (var targetFileStream = targetFile.Open())
+                                sourceFileStream.CopyTo(targetFileStream);
+
+                        }
+
+                        break;
+                    }
                 }
             }
         }
 
         private void Button_Click_English(object sender, RoutedEventArgs e)
         {
-            useIndexFile("en");
+            changeLanguage("en");
 
             Process.Start(Environment.CurrentDirectory + @"\The Distant Valhalla.exe");
 
@@ -64,7 +92,7 @@ namespace TDV_Launcher
 
         private void Button_Click_French(object sender, RoutedEventArgs e)
         {
-            useIndexFile("fr");
+            changeLanguage("fr");
 
             Process.Start(Environment.CurrentDirectory + @"\The Distant Valhalla.exe");
 
